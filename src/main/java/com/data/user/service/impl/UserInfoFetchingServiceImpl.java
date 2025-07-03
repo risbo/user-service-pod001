@@ -18,11 +18,11 @@ import java.util.UUID;
 public class UserInfoFetchingServiceImpl implements UserInfoFetchingService {
 
     private final UserInfoRepository userInfoRepository;
-    private final JwtUtil jwtUtil;
 
-    public UserInfoFetchingServiceImpl(UserInfoRepository userInfoRepository, JwtUtil jwtUtil) {
+
+    public UserInfoFetchingServiceImpl(UserInfoRepository userInfoRepository) {
         this.userInfoRepository = userInfoRepository;
-        this.jwtUtil = jwtUtil;
+
     }
 
 
@@ -39,7 +39,7 @@ public class UserInfoFetchingServiceImpl implements UserInfoFetchingService {
         details.setCreated(userInfo.getCreated().toEpochSecond());
         details.setModified(userInfo.getModified().toEpochSecond());
         details.setLast_login(userInfo.getLastLogin().toEpochSecond());
-        details.setToken(jwtUtil.generateToken(userInfo.getEmail()));
+        details.setToken(userInfo.getToken());
         details.setIsactice(userInfo.isActive());
 
         return ResponseEntity.status(HttpStatus.OK).body(details);

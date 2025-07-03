@@ -18,7 +18,7 @@ public interface UserInfoMessages {
     String PASSWORD_BLANK = "La contraseña no puede estar vacía";
     String PASSWORD_LENGTH = "La contraseña debe tener entre 8 y 20 caracteres";
     String PASSWORD_DESCRIPTION = "Contraseña del usuario (mínimo 8 caracteres)";
-    String PASSWORD_EXAMPLE = "$ecret0$";
+    String PASSWORD_EXAMPLE = "abc123!";
 
     String PHONES_DESCRIPTION = "Lista de teléfonos del usuario";
 
@@ -41,5 +41,6 @@ public interface UserInfoMessages {
     String EXISING_EMAIL = "El correo ya está registrado.";
     String ERROR_CREATING_USER="Error al crear el usuario";
     String ERROR_SERVER="Servicio no disponible, contacte al administrador.";
+    String PASSWORD_WITHOUT_FORMAT="La contraseña no cumple con el formato requerido";
 
 }

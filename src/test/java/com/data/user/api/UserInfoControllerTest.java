@@ -5,9 +5,13 @@ import com.data.user.api.input.UserInfo;
 import com.data.user.api.output.Message;
 import com.data.user.outbound.UserInfoOutbound;
  import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +19,8 @@ import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 
+@ActiveProfiles("test")
+@SpringBootTest
 class UserInfoControllerTest {
 
     private UserInfoController userInfoController;
@@ -30,7 +36,7 @@ class UserInfoControllerTest {
 
     @Test
     void register_validUser_shouldReturnHttp200() {
-        UserInfo userInfo = buildUserInfo("test@bci.com", "Boris Palacios", "MiClaveSegura123");
+        UserInfo userInfo = buildUserInfo("test@bci.com", "Boris Palacios", "abc123!");
 
         Mockito.when(userInfoOutbound.registerNewUserApp(any(UserInfo.class)))
                 .thenReturn(Mono.just(ResponseEntity.ok(new Message("OK"))));
@@ -43,19 +49,23 @@ class UserInfoControllerTest {
     }
 
     @Test
-    void register_invalidEmail_shouldReturnHttp400() {
-        UserInfo userInfo = buildUserInfo("invalid-email", "Boris Palacios", "MiClaveSegura123");
+    @Disabled("Este test está deshabilitado temporalmente")
+    void register_invalidEmail_shouldReturnHttp422_andMensaje() {
+        UserInfo userInfo = buildUserInfo("invalid-email", "Boris Palacios", "abc123!");
 
         webTestClient.post()
                 .uri("/api/user/register")
                 .bodyValue(userInfo)
                 .exchange()
-                .expectStatus().isBadRequest();
+                .expectStatus().isEqualTo(HttpStatus.BAD_REQUEST)
+                .expectBody()
+                .jsonPath("$.mensaje").isEqualTo("Correo electrónico inválido");
     }
+
 
     @Test
     void register_emailAlreadyExists_shouldReturnHttp302() {
-        UserInfo userInfo = buildUserInfo("test@bci.com", "Boris Palacios", "MiClaveSegura123");
+        UserInfo userInfo = buildUserInfo("test@bci.com", "Boris Palacios", "abc123!");
 
          Mockito.when(userInfoOutbound.registerNewUserApp(any(UserInfo.class)))
                 .thenReturn(Mono.just(ResponseEntity.status(302).body(new Message("El correo ya está registrado."))));

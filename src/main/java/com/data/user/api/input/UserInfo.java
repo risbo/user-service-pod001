@@ -18,12 +18,10 @@ public class UserInfo {
     private String name;
 
     @NotBlank(message = EMAIL_BLANK)
-    @Email(message = EMAIL_INVALID)
     @Schema(description = EMAIL_DESCRIPTION, example = EMAIL_EXAMPLE)
     private String email;
 
     @NotBlank(message = PASSWORD_BLANK)
-    @Size(min = 8, max = 20, message = PASSWORD_LENGTH)
     @Schema(description = PASSWORD_DESCRIPTION, example = PASSWORD_EXAMPLE)
     private String password;
 

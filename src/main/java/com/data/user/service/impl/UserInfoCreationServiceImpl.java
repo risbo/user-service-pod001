@@ -5,6 +5,7 @@ import com.data.user.domain.UserInfoEntity;
 import com.data.user.api.input.PhoneInfo;
 import com.data.user.api.input.UserInfo;
 import com.data.user.repository.UserInfoRepository;
+import com.data.user.security.JwtUtil;
 import com.data.user.service.UserInfoCreationService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,12 @@ import java.util.stream.Collectors;
 public class UserInfoCreationServiceImpl implements UserInfoCreationService {
 
 
+    private final JwtUtil jwtUtil;
     private final UserInfoRepository userInfoRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public UserInfoCreationServiceImpl(UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
+    public UserInfoCreationServiceImpl(JwtUtil jwtUtil, UserInfoRepository userInfoRepository, PasswordEncoder passwordEncoder) {
+        this.jwtUtil = jwtUtil;
         this.userInfoRepository = userInfoRepository;
         this.passwordEncoder = passwordEncoder;
     }
@@ -30,6 +33,7 @@ public class UserInfoCreationServiceImpl implements UserInfoCreationService {
     @Transactional
     public UserInfoEntity createUserInfo(final UserInfo userInfo){
         UserInfoEntity userInfoEntity = new UserInfoEntity();
+        userInfoEntity.setToken(jwtUtil.generateToken(userInfo.getEmail()));
         userInfoEntity.setName(userInfo.getName());
         userInfoEntity.setEmail(userInfo.getEmail());
         userInfoEntity.setPassword(passwordEncoder.encode(userInfo.getPassword()));

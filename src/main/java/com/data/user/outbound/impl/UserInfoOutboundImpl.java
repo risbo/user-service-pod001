@@ -49,8 +49,6 @@ public class UserInfoOutboundImpl implements UserInfoOutbound {
                     .body(new Message(PASSWORD_WITHOUT_FORMAT)));
         }
 
-
-
         if (userInfoFetchingService.existsByEmail(userInfo.getEmail())) {
             return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(new Message(EXISING_EMAIL)));

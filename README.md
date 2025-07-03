@@ -118,6 +118,9 @@ Registra un nuevo usuario.
 ***
 
 
+### Diagrama de la Solución
+![Diagrama Solución](readme-res/004.png)
+
 
 ## 👨‍💻 Autor
 

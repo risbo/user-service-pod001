@@ -47,8 +47,8 @@ Haga clic en "Try it out" para verificar el endpoint.
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tuusuario/registro-usuarios.git
-cd registro-usuarios
+git clone https://github.com/risbo/user-service-pod001.git
+cd user-service-pod001
 ```
 
 ### 2. Ejecutar la aplicación
